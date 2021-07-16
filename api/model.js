@@ -23,3 +23,5 @@ async function findById(recipe_id) {
   })
   return result
 }
+
+module.exports = findById
