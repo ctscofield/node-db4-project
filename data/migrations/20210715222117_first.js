@@ -1,7 +1,7 @@
 
 
-exports.up = function(knex) {
-  return knex.schema
+exports.up = async function(knex) {
+  await knex.schema
     .createTable('recipes', table => {
       table.increments('recipe_id')
       table.string('recipe_name', 250).notNullable()
@@ -10,18 +10,12 @@ exports.up = function(knex) {
       table.increments('step_id')
       table.string('step_number').notNullable()
       table.string('instructions', 500).notNullable()
-      table.integer('quantity_id')
-        .unsigned()
-        .notNullable()
+      table.string('quantity_id')
         .references('quantity_id')
         .inTable('quantity')
-        .onDelete('RESTRICT').onUpdate('RESTRICT')
-      table.integer('recipe_id')
-        .unsigned()
-        .notNullable()
-        .references('recipe_id')
-        .inTable('recipes')
-        .onDelete('RESTRICT').onUpdate('RESTRICT')
+      table.string('ingredient_id')
+        .references('ingredient_id')
+        .inTable('ingredients')
     })
     .createTable('quantity', table => {
       table.increments('quantity_id')
@@ -33,8 +27,8 @@ exports.up = function(knex) {
     })
 };
 
-exports.down = function(knex) {
-  return knex.scheme
+exports.down = async function(knex) {
+  await knex.schema
     .dropTableIfExists('ingredients')
     .dropTableIfExists('quantity')
     .dropTableIfExists('steps')
